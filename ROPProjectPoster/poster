@@ -1,0 +1,310 @@
+% This is a LaTeX file for an A3 poster.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Asymptotic behavior of solutions to the generalized Becker-Döring
+% equations for general initial data.
+%
+% Poster for the HYKE-3 meeting in Rome, 13-15 April 2005.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+% To modify the size of the page:
+\usepackage[dvips,a3paper,landscape,centering,margin=2cm]{geometry}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+
+\usepackage{amsmath, amsthm, amsfonts}
+\newtheorem{lemma}{Lemma}
+\newtheorem{sublemma}{Lemma}[lemma]
+\usepackage{enumerate}
+\usepackage{graphicx}           % Include figure files.
+%\usepackage{titlesec}                  % Include figure files.
+%\titlespacing*{\section}
+%{0pt}{5.5ex plus 1ex minus .2ex}{4.3ex plus .2ex}
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings,arrows,calc}
+
+% Colors
+% -------
+\definecolor{azulillo}{rgb}{0.8,0.85,1}
+\definecolor{marronrp3}{rgb}{.9,.9,.7}
+\definecolor{salmon}{rgb}{1,.9,.8}
+\definecolor{rojo}{rgb}{.6,.1,0}
+
+\pagestyle{empty}
+
+\def\to{\rightarrow}
+
+% Hyphenation
+%\hyphenation{coa-gu-la-tion frag-men-ta-tion}
+
+% ===========================================================================
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+%\maketitle
+
+\begin{center}
+  \begin{minipage}{.19\linewidth}
+    \begin {center}
+    \begin{minipage}{1\linewidth}
+    \includegraphics[width=.3\linewidth]{CAHSI_seal.png} %
+    \end{minipage}
+    \begin{minipage}{1\linewidth}
+    \includegraphics[width=.3\linewidth]{University_of_Houston–Downtown_seal.png} %
+    \end{minipage}
+   \end{center} 
+  \end{minipage}
+  %&
+  \begin{minipage}{.6\linewidth}
+    \begin{center}
+      \Huge \textbf{Working Title: Local Differential Privacy Accuracy}
+      \normalsize \begin{center} %
+      MJ Asuncion, University of Houston-Downtown \\
+      Emre Yilmaz PhD, Dept. of Computing Sciences \& Technology, University of Houston-Downtown \\
+      mjasuncion@acm.org; yilmaze@uhd.edu
+     \end{center} 
+    \end{center}
+  \end{minipage}
+  %&
+  \hspace{.03\linewidth}
+  \begin{minipage}{0.16\linewidth}
+    \begin{flushright}
+      \includegraphics[width=.6\linewidth]{nsf-logo.png}
+    \end{flushright}
+  \end{minipage}
+\end{center}
+
+\vspace{.1cm}
+
+% ---------------------------------------------------------------------------
+
+\setlength{\columnsep}{1cm}
+\begin{multicols}{3}
+
+\begin{minipage}[t]{.96\linewidth}
+\begin{center}
+\noindent
+\section*{Abstract}
+%%\vspace{-8em}
+Lattice based cryptography has been used for decades in security and in other fields due to its complexity. 
+Many of its theorems are still unsolved, making it a perfect model for security. 
+We will explore the history of the lattice problem, what is a lattice, and how it's currently used in society.
+\end{center}
+\end{minipage}
+
+\colorbox{marronrp3}{
+  \begin{minipage}[t]{.9\linewidth}
+\begin{center}
+    \vspace{.05cm}
+  \section*{History}
+    \vspace{.05cm}
+    Lattice-Based cryptographic constructions are based on the presumed hardness of lattice problems, 
+    the most basic of which is the shortest vector problem (SVP). 
+    Then the most well-known and widely studied algorithm for lattice problems is the LLL algorithm, developed in 1982 by Lenstra, Lenstra, and Lov'asz [1]. 
+    This is a polynomial time algorithm for SVP (and for most other basic lattice problems) that achieves an approximation factor of \(2O(\log{}n)\) where n is the dimension of the lattice. 
+    Lattice-based cryptographic constructions hold a great promise for post-quantum cryptography. They are all believed to be secure against quantum computers. In terms of security, lattice-based cryptographic constructions can be divided into two types. 
+    The first includes practical proposals, which are typically very efficient, but often lack supporting proof of security. The second type admit strong provable security guarantees based on the worst-case hardness of lattice problems, but only a few of them are sufficiently efficient to be used in practice.
+    \hspace{.05cm}
+\end{center}
+  \end{minipage}
+}
+
+\begin{minipage}[t]{.9\linewidth}
+\begin{center}
+  \begin{tikzpicture}
+        \coordinate (Origin)   at (0,0);
+        \coordinate (XAxisMin) at (-2,0);
+        \coordinate (XAxisMax) at (5,0);
+        \coordinate (YAxisMin) at (0,-2);
+        \coordinate (YAxisMax) at (0,5);
+    
+        \coordinate (Bone) at (1,2);
+        \coordinate (Btwo) at (2,-1);
+    
+        \draw [thin, gray,-latex] (XAxisMin) -- (XAxisMax);% Draw x axis
+        \draw [thin, gray,-latex] (YAxisMin) -- (YAxisMax);% Draw y axis
+    
+        % Latice points along b1+b2
+        \coordinate (vec) at ($(Bone)+(Btwo)$);
+
+        \foreach \x in {-1,0,...,6}{                           % Two indices running over each
+          \foreach \y in {-1,0,...,4}{                       % node on the grid we have drawn 
+            \node[draw,circle,inner sep=2pt,fill] at (1*\x,1*\y) {}; % Places a dot at those points
+            }
+          }
+        % Draw the vectors
+         \draw [ultra thick,-latex,red] (Origin) -- (Bone) node [above left] {$b_1$};
+         \draw [ultra thick,-latex,red] (Origin) -- (Btwo) node [below right] {$b_2$};
+         \draw [ultra thick,-latex,red] (Origin) -- ($(Bone)+(Btwo)$) node [below right] {$b_1+b_2$};
+         \draw [ultra thick,-latex,red] (Origin) -- ($2*(Bone)+(Btwo)$) node [above left] {$2b_1+b_2$};
+         \draw [thin,-latex,red, fill=gray, fill opacity=0.3] (Origin) -- ($2*(Bone)+(Btwo)$) --
+            ($3*(Bone)+2*(Btwo)$) -- ($(Bone)+(Btwo)$) -- cycle;
+      \end{tikzpicture}
+ \end{center}
+    \caption{\textbf{Figure 1} A two-dimensional lattice and two possible bases.}
+  \end{minipage}
+
+\vspace{1cm}
+\noindent
+\fcolorbox{black}{salmon}{
+  \begin{minipage}[t]{.96\linewidth}
+    \vspace{.05cm}
+    \begin{center}
+      \vspace{.1cm}
+      \section*{\Huge {Definition}}
+      \Large A set of points in an $n$-dimensionall space with a periodic structure as illustrated in \(Figure \, 1\). 
+      Given $n$-linearly independent vectors $b_1, \ldots , b_n \in\mathbb{R}^n$, the lattice generated by them is the set of vectors
+      \[\displaystyle{L}\left(b_1,\ldots,b_n\right)={\left\lbrace\sum_{i=1}^{n} x_{i}b_{i} : x_{i} \in Z\right\rbrace}\]
+      the vectors $b_1,\ldots,b_n$ are known as the basis of the lattice.
+
+  \end{center}
+  \end{minipage}
+}
+
+\vspace{.5cm}
+
+  \begin{center}
+    \begin{lemma}
+    Let \(L\subset \mathbb{R}^n\) be a lattice. Then the following properties hold:
+    \begin{enumerate}[(i)]
+      \item There exists an r \(>\) 0 such that for all x \(\in L\),\, there is no element y \(\in\) L
+       with \(\Vert{x-y}\Vert < r\). Equivalently, there exists an \(r > 0\) such that \(\mathbb{B}(x,r)\cap L =\{x\} \text{ for all } x \in L\).
+      \item L is a closed set, which means that L has no accumulation points outside of L (hence none at all).
+      \item If \(S \subseteq \mathbb{R}^n\text{ is bounded, then } L \cap S \) is finite.
+      \item L is countable.
+    \end{enumerate}
+  \end{lemma}
+  \end{center}
+
+  % Thus, $c_j$ can be measured, for instance, in clusters per cubic
+  % meter, in units of $\unit{m^{-3}}$.
+
+%%  \begin{minipage}[t]{.4\linewidth}
+%%    \begin{center}
+%%      % -------------------------------------
+%%      \includegraphics[width=3cm]{frag.eps}
+%%      % -------------------------------------
+%%      \begin{tabular}{cc}
+%%        space holder
+%%      \end{tabular}
+%%    \end{center}
+%%  \end{minipage}
+%%  %
+%%  \hspace{.3cm}
+%%  %
+%%  \begin{minipage}[t]{.4\linewidth}
+%%    \begin{center}
+%%      % ------------------------------------
+%%      \includegraphics[width=3cm]{coag.eps}
+%%      % ------------------------------------
+%%
+%%      \begin{tabular}{cc}
+%%        space holder
+%%      \end{tabular}
+%%    \end{center}
+%%  \end{minipage}
+
+%\end{center}
+
+% ---------------------------------------------------------------------------
+
+\vspace{.2cm}
+
+\colorbox{marronrp3}{
+    \vspace{.2cm}
+  \begin{minipage}[t]{.9\linewidth}
+    \begin{center}
+    \section*{SVP}
+    Let \(L \subset Z^n\) be a non-trivial lattice, ie., it contains at least one nonzero vector x. Now, the set
+    u= min
+    \(S = \mathbb{B}(0, \Vert x\Vert) \) is bounded, and therefore, by Lemma 1, \(L \cap S\) is finite. Note that \(x\in L \cap S\), 
+    and thus \(L \cap S\) contains at least one nonzero vector. It follows that the set of norms of nonzero vectors in \(L \cap S\) 
+    is finite and nonempty, and thus there exists a nonzero vector \(u \in L\) such that
+    \[\Vert u \Vert = \min_{v \in L /\{0\}} \Vert v \Vert\]
+
+    This gives the rise to the shortest vector problem (SVP):
+    
+    \paragraph*{Definition:}
+    Shortest Vector Problem (SVP), Given a basis B of a d-rank lattice \(L \subseteq \mathbb{Z}^n\), 
+    find a nonzero vector \(u \in L \) such that \(\Vert u \Vert = \min_{v \in L /\{0\}} \Vert v \Vert\).
+
+%"shortest vector" will always mean a nonzero vector, as 0 is trivially the shortest vector in a lattice.
+    
+    \vspace{.02cm}
+    \end{center}
+  \end{minipage}
+}
+\vspace{.4cm}
+
+{\textcolor{rojo}{''Shortest vector'' will always mean a nonzero vector,
+ as 0 is trivially the shortest vector in a lattice.
+}  }
+
+\noindent
+\colorbox{marronrp3}{
+ \begin{minipage}[t]{.96\linewidth}
+\vspace{.05cm}
+\begin{center}
+\section*{Applications}
+\begin{enumerate}
+  \item \textbf{End-to-End Encryption:} The one field of communication that is widely used, but is the least encrypted is the E-mail. Since the content of our emails is not sensitive enough we least care for encryption. But, for people out there who care for their sensitive information, like information related to military or political purpose where the whole country has to suffer if the information gets leaked out, they can’t have an uncertainty of even 0.01%. 
+  \item \textbf{Electronic Money:} As we can see this is the era of Digital Cash or Electronic cash. On simple terms, we can say that Electronic money includes the transfer of money between individuals electronically using an encryption algorithm. The level of Encryption used here is the key factor. Great encryption will secure the transactions from getting hacked by anonymous users whereas a small flaw in encryption will lead to a huge loss. As we know the alteration of a single bit/digit over the database can change a million to a billion. Example :- Suppose if an unauthorised user just gets into the database using the flaw on encryption and just add two more zeros on the end of this account balance. That makes a huge difference, this was just a small example to illustrate what he/she can do. 
+  \item \textbf{Secure Network Communications:} In order to have a secure medium to communicate through others, the extent of the encryption standard must have to be increased. To do so network protocols based on public-key cryptography have been made such as Secure Socket Layer(SSL) developed by Netscape, Kerberos an authentication service developed by MIT. 
+  \item \textbf{Anonymous Remailers:} Remailing, is a service that receives messages with embedded instructions of where to send them next while stripping off the header information like the originating address from the electronic message and forwarding only the message. So, in this process, only the first remailer retains your identity and instead of trusting the operator, uses many anonymous remailers to relay the message before sending it to the recipient. Using this method only the first remailer know the identity of the sender and it becomes impossible for anyone to retrace back to the sender from the end-point. The user wanting anonymity for their messages uses such kind of service whose encryption is based on lattices.
+\end{enumerate} 
+\end{center}
+\end{minipage} 
+}
+\noindent
+\begin{thebibliography}{}
+
+\bibitem[1]{1} A. K. Lenstra, H. W. Lenstra, Jr., and L. Lov´asz. \emph{Factoring polynomials with rational coefficients.} 
+Math. Ann., 261(4):515–534, 1982. 
+
+\bibitem[2]{2} O. Regev. \emph{On the complexity of lattice problems with polynomial approximation factors, 2007.}
+ Survey paper prepared for the LLL+25 conference. To appear. 
+
+%%\bibitem{BCP86} J. M. Ball, J. Carr, O. Penrose, \emph{The
+%%    Becker-D\"oring cluster equations: basic properties and asymptotic
+%%    behaviour of solutions}, Comm. Math. Phys. 104, 657--692 (1986)
+%%
+%%\bibitem{BC88} J. M. Ball, J. Carr, \emph{Asymptotic behaviour of
+%%    solutions to the Becker-D\"oring equations for arbitrary initial
+%%    data}, Proc. Roy. Soc. Edinburgh Sect. A, 108, 109-116 (1988)
+%%
+%%\bibitem{C04} J. A. Cañizo, \emph{Asymptotic behavior of solutions to
+%%    the generalized Becker-Döring equations for general initial data},
+%%  preprint.
+%%
+%%\bibitem{CdC94} J. Carr, F. P. da Costa, \emph{Asymptotic behaviour of
+%%    solutions to the coagulation-fragmentation equations. II. Weak
+%%    fragmentation}, J. Stat. Phys. 77, 89--123 (1994)
+%%
+%%\bibitem{dC98} F. P. da Costa, \emph{Asymptotic behaviour of low
+%%    density solutions to the generalized Becker-D\"oring equations},
+%%  NoDEA Nonlinear Differential Equations Appl. 5, 23--37, (1998)
+%%
+%%\bibitem{LM} Ph. Lauren\c{c}ot, S. Mischler, \emph{Notes on the
+%%    Becker-D\"oring equation}, personal communication.
+%%
+%%\bibitem{LM02e} Ph. Lauren{\c{c}}ot, S. Mischler, \emph{From the
+%%    {B}ecker-{D}\"oring to the {L}ifshitz-{S}lyozov-{W}agner
+%%    equations}, J. Statist. Phys. 106, 5-6, pages 957--991 (2002).
+
+\end{thebibliography}
+
+
+\end{multicols}
+
+\end{document}
